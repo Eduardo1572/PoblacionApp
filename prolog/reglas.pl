@@ -24,7 +24,6 @@ estado_en_continente(Estado, Continente) :-
 
 % ------------------------------------------------------------
 %  REGLAS DE RANKING — PAÍSES POR CONTINENTE
-%  CORRECCIÓN: OtroPais reemplazado por _ (no lo usamos)
 % ------------------------------------------------------------
 
 
@@ -43,7 +42,6 @@ pais_menos_poblado(Continente, Pais, Poblacion) :-
 
 % ------------------------------------------------------------
 %  REGLAS DE RANKING — ESTADOS POR PAÍS
-%  CORRECCIÓN: OtroEstado reemplazado por _
 % ------------------------------------------------------------
 
 estado_mas_poblado(Pais, Estado, Poblacion) :-
@@ -82,7 +80,7 @@ continente_mas_poblado(Continente, Poblacion) :-
 % ------------------------------------------------------------
 
 % Transforma el texto ingresado a minusculas para que la búsqueda coincida exactamente con los datos de la base 
-% de conocimientos (que están en minúsculas), evitando errores si el usuario usa mayúsculas.
+% de conocimientos (que están en minúsculas), evitando errores en caso de que el usuario use mayúsculas.
 buscar_pais(EntradaUsuario, Pais, Continente, Poblacion) :-
     downcase_atom(EntradaUsuario, EntradaMin),
     pais(Pais, Continente, Poblacion),
