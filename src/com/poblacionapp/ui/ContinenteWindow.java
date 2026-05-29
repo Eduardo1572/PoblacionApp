@@ -71,13 +71,13 @@ public class ContinenteWindow extends JFrame {
         scroll.setBorder(BorderFactory.createLineBorder(new Color(79, 58, 210), 1));
         scroll.setPreferredSize(new Dimension(456, 150));
 
-        // --- Acciones ---
+        //  Acciones 
         btnPoblacion.addActionListener(e  -> mostrarPoblacionContinente());
         btnPaises.addActionListener(e     -> mostrarPaisesContinente());
         btnMasPoblado.addActionListener(e -> mostrarContinenteMasPoblado());
         btnTodos.addActionListener(e      -> mostrarTodosContinentes());
 
-        // --- Panel superior: título + combo ---
+        //  Panel superior: título + combo 
         JPanel panelSuperior = new JPanel(new BorderLayout(0, 8));
         panelSuperior.setBackground(new Color(28, 28, 45));
         panelSuperior.add(lblTitulo, BorderLayout.NORTH);
@@ -146,7 +146,7 @@ public class ContinenteWindow extends JFrame {
         StringBuilder sb = new StringBuilder("Todos los continentes:\n\n");
         for (Map<String, String> f : lista) {
             sb.append("  • ").append(f.get("Nombre").toUpperCase())
-              .append("  →  ").append(f.get("Poblacion")).append(" millones\n");
+              .append("  →  ").append(f.get("Poblacion")).append(" millones de habitantes\n");
         }
         areaResultados.setText(sb.toString());
     }

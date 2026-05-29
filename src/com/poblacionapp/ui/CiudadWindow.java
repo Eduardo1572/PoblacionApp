@@ -18,69 +18,83 @@ public class CiudadWindow extends JFrame {
 
     private void initComponents() {
         setTitle("Consulta por Ciudad");
-        setSize(480, 460);
+        setSize(500, 520);
         setLocationRelativeTo(null);
         setResizable(false);
 
-        JPanel panel = new JPanel(new BorderLayout(10, 10));
-        panel.setBackground(new Color(30, 30, 47));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        JPanel panel = new JPanel(new BorderLayout(10, 12)); // Ajustado a 10, 12
+        panel.setBackground(new Color(28, 28, 45));
+        panel.setBorder(BorderFactory.createEmptyBorder(22, 22, 22, 22));
 
-        JLabel lblTitulo = new JLabel("🏙  Consulta por Ciudad");
-        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 18));
+        // --- Título ---
+        JLabel lblTitulo = new JLabel("  Consulta por Ciudad");
+        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 20));
         lblTitulo.setForeground(new Color(240, 240, 255));
+        lblTitulo.setBorder(BorderFactory.createEmptyBorder(0, 0, 4, 0)); // Margen inferior
 
-        JPanel panelControles = new JPanel(new GridLayout(4, 1, 0, 8));
-        panelControles.setBackground(new Color(30, 30, 47));
-
+        // --- Etiqueta + ComboBox ---
         JLabel lblCombo = new JLabel("  Selecciona un estado:");
         lblCombo.setForeground(new Color(160, 160, 200));
         lblCombo.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 
         comboEstados = new JComboBox<>();
-        comboEstados.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        comboEstados.setBackground(new Color(50, 50, 70));
-        comboEstados.setForeground(Color.WHITE);
+        comboEstados.setFont(new Font("Segoe UI", Font.PLAIN, 14)); // Ajustado a 14
+        comboEstados.setBackground(Color.WHITE);
+        comboEstados.setForeground(new Color(30, 30, 50));
+        comboEstados.setMaximumRowCount(5); // Límite de despliegue
 
+        // --- Panel de Botones ---
+        JPanel panelBotones = new JPanel(new GridLayout(3, 1, 0, 10)); // Ajustado gap a 10
+        panelBotones.setBackground(new Color(28, 28, 45));
+        // Se agregó el margen que faltaba para separar los botones arriba y abajo
+        panelBotones.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        
+        // Se agregaron los espacios en blanco iniciales en los textos de los botones
         JButton btnListar     = MainWindow.crearBoton(
-            "Listar ciudades del estado",       new Color(180, 100, 50));
+            "  Listar ciudades del estado",       new Color(180, 100, 50));
         JButton btnMasPoblada = MainWindow.crearBoton(
-            "Ciudad más poblada del estado",    new Color(72, 52, 212));
+            "  Ciudad más poblada del estado",    new Color(72, 52, 212));
         JButton btnUbicacion  = MainWindow.crearBoton(
-            "Ver país de la primera ciudad",    new Color(52, 140, 100));
+            "  Ver país de la primera ciudad",    new Color(52, 140, 100));
 
-        panelControles.add(lblCombo);
-        panelControles.add(comboEstados);
-        panelControles.add(btnListar);
-        panelControles.add(btnMasPoblada);
-
+        panelBotones.add(btnListar);
+        panelBotones.add(btnMasPoblada);
+        panelBotones.add(btnUbicacion);
+        
+        // --- Área de resultados ---
         areaResultados = new JTextArea();
         areaResultados.setEditable(false);
         areaResultados.setFont(new Font("Monospaced", Font.PLAIN, 13));
-        areaResultados.setBackground(new Color(20, 20, 35));
+        areaResultados.setBackground(new Color(18, 18, 32)); // Color estandarizado
         areaResultados.setForeground(new Color(180, 255, 180));
-        areaResultados.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        areaResultados.setBorder(BorderFactory.createEmptyBorder(10, 12, 10, 12));
+        areaResultados.setLineWrap(true); // Ajuste automático de línea
 
         JScrollPane scroll = new JScrollPane(areaResultados);
-        scroll.setBorder(BorderFactory.createLineBorder(new Color(180, 100, 50)));
-        scroll.setPreferredSize(new Dimension(440, 150));
+        scroll.setBorder(BorderFactory.createLineBorder(new Color(180, 100, 50), 1));
+        scroll.setPreferredSize(new Dimension(456, 150)); // Dimensión estandarizada
 
-        JPanel panelInferior = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 5));
-        panelInferior.setBackground(new Color(30, 30, 47));
-        panelInferior.add(btnUbicacion);
-
+        // --- Acciones ---
         btnListar.addActionListener(e -> listarCiudades());
         btnMasPoblada.addActionListener(e -> mostrarMasPoblada());
         btnUbicacion.addActionListener(e -> mostrarUbicacion());
+        
+        // --- Ensamblaje Estructural ---
+        JPanel panelSuperior = new JPanel(new BorderLayout(0, 6));
+        panelSuperior.setBackground(new Color(28, 28, 45));
+        
+        JPanel panelCombo = new JPanel(new BorderLayout(0, 4));
+        panelCombo.setBackground(new Color(28, 28, 45));
+        panelCombo.add(lblCombo, BorderLayout.NORTH);
+        panelCombo.add(comboEstados, BorderLayout.CENTER);
+        
+        panelSuperior.add(lblTitulo, BorderLayout.NORTH);
+        panelSuperior.add(panelCombo, BorderLayout.CENTER);
 
-        panel.add(lblTitulo, BorderLayout.NORTH);
-        panel.add(panelControles, BorderLayout.CENTER);
-
-        JPanel panelSur = new JPanel(new BorderLayout());
-        panelSur.setBackground(new Color(30, 30, 47));
-        panelSur.add(panelInferior, BorderLayout.NORTH);
-        panelSur.add(scroll, BorderLayout.CENTER);
-        panel.add(panelSur, BorderLayout.SOUTH);
+        // AQUÍ ESTABA EL ERROR: Se estaba agregando lblTitulo en lugar de panelSuperior
+        panel.add(panelSuperior, BorderLayout.NORTH); 
+        panel.add(panelBotones,  BorderLayout.CENTER);
+        panel.add(scroll,        BorderLayout.SOUTH);
 
         add(panel);
     }

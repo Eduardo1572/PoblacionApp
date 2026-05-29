@@ -18,118 +18,126 @@ public class PaisWindow extends JFrame {
 
     private void initComponents() {
         setTitle("Consulta por País");
-        setSize(480, 460);
+        setSize(500, 520);
         setLocationRelativeTo(null);
         setResizable(false);
 
-        JPanel panel = new JPanel(new BorderLayout(10, 10));
-        panel.setBackground(new Color(30, 30, 47));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        JPanel panel = new JPanel(new BorderLayout(10, 12));
+        panel.setBackground(new Color(28, 28, 45));
+        panel.setBorder(BorderFactory.createEmptyBorder(22, 22, 22, 22));
 
         JLabel lblTitulo = new JLabel("  Consulta por País");
-        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        lblTitulo.setForeground(new Color(240, 240, 255));
+        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        lblTitulo.setForeground(new Color(230, 230, 255));
+        lblTitulo.setBorder(BorderFactory.createEmptyBorder(0, 0, 4, 0));
 
-        JPanel panelControles = new JPanel(new GridLayout(4, 1, 0, 8));
-        panelControles.setBackground(new Color(30, 30, 47));
-
+        // --- Etiqueta + ComboBox ---
         JLabel lblCombo = new JLabel("  Filtrar por continente:");
-        lblCombo.setForeground(new Color(160, 160, 200));
+        lblCombo.setForeground(new Color(180, 180, 220));
         lblCombo.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 
         comboContinentes = new JComboBox<>();
-        comboContinentes.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        comboContinentes.setBackground(new Color(50, 50, 70));
-        comboContinentes.setForeground(Color.WHITE);
+        comboContinentes.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        comboContinentes.setBackground(Color.WHITE);
+        comboContinentes.setForeground(new Color(30, 30, 50));
+        comboContinentes.setMaximumRowCount(5);
 
-        JButton btnListar      = MainWindow.crearBoton(
-            "Listar países del continente",         new Color(52, 120, 212));
-        JButton btnMasPoblado  = MainWindow.crearBoton(
-            "País más poblado del continente",      new Color(72, 52, 212));
+        // --- Los 3 botones en GridLayout(3,1) — TODOS iguales ---
+        JPanel panelBotones = new JPanel(new GridLayout(3, 1, 0, 10));
+        panelBotones.setBackground(new Color(28, 28, 45));
+        panelBotones.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+
+        JButton btnListar       = MainWindow.crearBoton(
+            "  Listar países del continente",        new Color(52, 120, 212));
+        JButton btnMasPoblado   = MainWindow.crearBoton(
+            "  País más poblado del continente",     new Color(79, 58, 210));
         JButton btnMenosPoblado = MainWindow.crearBoton(
-            "País menos poblado del continente",    new Color(52, 140, 100));
+            "  País menos poblado del continente",   new Color(40, 140, 110));
 
-        panelControles.add(lblCombo);
-        panelControles.add(comboContinentes);
-        panelControles.add(btnListar);
-        panelControles.add(btnMasPoblado);
+        panelBotones.add(btnListar);
+        panelBotones.add(btnMasPoblado);
+        panelBotones.add(btnMenosPoblado);
 
+        // --- Área de resultados ---
         areaResultados = new JTextArea();
         areaResultados.setEditable(false);
         areaResultados.setFont(new Font("Monospaced", Font.PLAIN, 13));
-        areaResultados.setBackground(new Color(20, 20, 35));
-        areaResultados.setForeground(new Color(180, 255, 180));
-        areaResultados.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        areaResultados.setBackground(new Color(18, 18, 32));
+        areaResultados.setForeground(new Color(140, 255, 180));
+        areaResultados.setBorder(BorderFactory.createEmptyBorder(10, 12, 10, 12));
+        areaResultados.setLineWrap(true);
 
         JScrollPane scroll = new JScrollPane(areaResultados);
-        scroll.setBorder(BorderFactory.createLineBorder(new Color(52, 120, 212)));
-        scroll.setPreferredSize(new Dimension(440, 150));
+        scroll.setBorder(BorderFactory.createLineBorder(new Color(52, 120, 212), 1));
+        scroll.setPreferredSize(new Dimension(456, 150));
 
-        JPanel panelInferior = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 5));
-        panelInferior.setBackground(new Color(30, 30, 47));
-        panelInferior.add(btnMenosPoblado);
-
-        btnListar.addActionListener(e -> listarPaises());
-        btnMasPoblado.addActionListener(e -> mostrarMasPoblado());
+        // --- Acciones ---
+        btnListar.addActionListener(e       -> listarPaises());
+        btnMasPoblado.addActionListener(e   -> mostrarMasPoblado());
         btnMenosPoblado.addActionListener(e -> mostrarMenosPoblado());
 
-        panel.add(lblTitulo, BorderLayout.NORTH);
-        panel.add(panelControles, BorderLayout.CENTER);
+        // --- Panel superior ---
+        JPanel panelSuperior = new JPanel(new BorderLayout(0, 6));
+        panelSuperior.setBackground(new Color(28, 28, 45));
+        JPanel panelCombo = new JPanel(new BorderLayout(0, 4));
+        panelCombo.setBackground(new Color(28, 28, 45));
+        panelCombo.add(lblCombo, BorderLayout.NORTH);
+        panelCombo.add(comboContinentes, BorderLayout.CENTER);
+        panelSuperior.add(lblTitulo, BorderLayout.NORTH);
+        panelSuperior.add(panelCombo, BorderLayout.CENTER);
 
-        JPanel panelSur = new JPanel(new BorderLayout());
-        panelSur.setBackground(new Color(30, 30, 47));
-        panelSur.add(panelInferior, BorderLayout.NORTH);
-        panelSur.add(scroll, BorderLayout.CENTER);
-        panel.add(panelSur, BorderLayout.SOUTH);
+        panel.add(panelSuperior, BorderLayout.NORTH);
+        panel.add(panelBotones,  BorderLayout.CENTER);
+        panel.add(scroll,        BorderLayout.SOUTH);
 
         add(panel);
     }
 
     private void cargarContinentes() {
-        List<Map<String, String>> continentes = PrologEngine.obtenerContinentes();
-        for (Map<String, String> fila : continentes) {
-            comboContinentes.addItem(fila.get("Nombre"));
+        List<Map<String, String>> lista = PrologEngine.obtenerContinentes();
+        for (Map<String, String> f : lista) {
+            comboContinentes.addItem(f.get("Nombre"));
         }
     }
 
     private void listarPaises() {
-        String continente = (String) comboContinentes.getSelectedItem();
-        if (continente == null) return;
-        List<Map<String, String>> paises = PrologEngine.paisesPorContinente(continente);
+        String c = (String) comboContinentes.getSelectedItem();
+        if (c == null) return;
+        List<Map<String, String>> paises = PrologEngine.paisesPorContinente(c);
         if (paises.isEmpty()) {
-            areaResultados.setText("Sin resultados para: " + continente);
+            areaResultados.setText("Sin resultados para: " + c);
             return;
         }
         StringBuilder sb = new StringBuilder();
-        sb.append("Países en ").append(continente.toUpperCase()).append(":\n\n");
-        for (Map<String, String> fila : paises) {
-            sb.append("  • ").append(fila.get("Nombre"))
-              .append("  ->  ").append(fila.get("Poblacion")).append(" millones de habitantes\n");
+        sb.append("Países en ").append(c.toUpperCase()).append(":\n\n");
+        for (Map<String, String> f : paises) {
+            sb.append("  • ").append(f.get("Nombre"))
+              .append("  →  ").append(f.get("Poblacion")).append(" millones de habitantes\n");
         }
         areaResultados.setText(sb.toString());
     }
 
     private void mostrarMasPoblado() {
-        String continente = (String) comboContinentes.getSelectedItem();
-        if (continente == null) return;
-        List<Map<String, String>> r = PrologEngine.paisMasPoblado(continente);
+        String c = (String) comboContinentes.getSelectedItem();
+        if (c == null) return;
+        List<Map<String, String>> r = PrologEngine.paisMasPoblado(c);
         if (!r.isEmpty()) {
             Map<String, String> f = r.get(0);
             areaResultados.setText(
-                "Pais más poblado de " + continente.toUpperCase() + ":\n\n" +
-                "  -> " + f.get("Pais") + "  con  " + f.get("Poblacion") + " millones de habitantes"
+                "País más poblado de " + c.toUpperCase() + ":\n\n" +
+                "  → " + f.get("Pais") + "  con  " + f.get("Poblacion") + " millones de habitantes"
             );
         }
     }
 
     private void mostrarMenosPoblado() {
-        String continente = (String) comboContinentes.getSelectedItem();
-        if (continente == null) return;
-        List<Map<String, String>> r = PrologEngine.paisMenosPoblado(continente);
+        String c = (String) comboContinentes.getSelectedItem();
+        if (c == null) return;
+        List<Map<String, String>> r = PrologEngine.paisMenosPoblado(c);
         if (!r.isEmpty()) {
             Map<String, String> f = r.get(0);
             areaResultados.setText(
-                "País menos poblado de " + continente.toUpperCase() + ":\n\n" +
+                "País menos poblado de " + c.toUpperCase() + ":\n\n" +
                 "  → " + f.get("Pais") + "  con  " + f.get("Poblacion") + " millones de habitantes"
             );
         }

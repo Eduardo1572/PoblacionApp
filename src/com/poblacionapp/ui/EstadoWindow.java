@@ -18,69 +18,77 @@ public class EstadoWindow extends JFrame {
 
     private void initComponents() {
         setTitle("Consulta por Estado");
-        setSize(480, 460);
+        setSize(500, 520); 
         setLocationRelativeTo(null);
         setResizable(false);
 
-        JPanel panel = new JPanel(new BorderLayout(10, 10));
-        panel.setBackground(new Color(30, 30, 47));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        JPanel panel = new JPanel(new BorderLayout(10, 12));
+        panel.setBackground(new Color(28, 28, 45));
+        panel.setBorder(BorderFactory.createEmptyBorder(22, 22, 22, 22));
 
-        JLabel lblTitulo = new JLabel("📍  Consulta por Estado");
-        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 18));
-        lblTitulo.setForeground(new Color(240, 240, 255));
+        JLabel lblTitulo = new JLabel("  Consulta por Estado");
+        lblTitulo.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        lblTitulo.setForeground(new Color(230, 230, 255));
+        lblTitulo.setBorder(BorderFactory.createEmptyBorder(0, 0, 4, 0));
 
-        JPanel panelControles = new JPanel(new GridLayout(4, 1, 0, 8));
-        panelControles.setBackground(new Color(30, 30, 47));
-
+        // --- Etiqueta + ComboBox ---
         JLabel lblCombo = new JLabel("  Selecciona un país:");
-        lblCombo.setForeground(new Color(160, 160, 200));
+        lblCombo.setForeground(new Color(180, 180, 220));
         lblCombo.setFont(new Font("Segoe UI", Font.PLAIN, 12));
 
         comboPaises = new JComboBox<>();
-        comboPaises.setFont(new Font("Segoe UI", Font.PLAIN, 13));
-        comboPaises.setBackground(new Color(50, 50, 70));
-        comboPaises.setForeground(Color.WHITE);
+        comboPaises.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        comboPaises.setBackground(Color.WHITE);
+        comboPaises.setForeground(new Color(30, 30, 50));
+        comboPaises.setMaximumRowCount(5);
 
+        // --- Panel de Botones exclusivo para los 3 botones ---
+        JPanel panelBotones = new JPanel(new GridLayout(3, 1, 0, 10));
+        panelBotones.setBackground(new Color(28, 28, 45));
+        panelBotones.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
+        
         JButton btnListar       = MainWindow.crearBoton(
-            "Listar estados del país",          new Color(52, 170, 140));
+            "  Listar estados del país",         new Color(52, 170, 140));
         JButton btnMasPoblado   = MainWindow.crearBoton(
-            "Estado más poblado del país",      new Color(72, 52, 212));
+            "  Estado más poblado del país",     new Color(72, 52, 212));
         JButton btnMenosPoblado = MainWindow.crearBoton(
-            "Estado menos poblado del país",    new Color(180, 100, 50));
+            "  Estado menos poblado del país",   new Color(180, 100, 50));
 
-        panelControles.add(lblCombo);
-        panelControles.add(comboPaises);
-        panelControles.add(btnListar);
-        panelControles.add(btnMasPoblado);
+        // Ahora los 3 botones comparten el mismo layout
+        panelBotones.add(btnListar);
+        panelBotones.add(btnMasPoblado);
+        panelBotones.add(btnMenosPoblado);
 
         areaResultados = new JTextArea();
         areaResultados.setEditable(false);
         areaResultados.setFont(new Font("Monospaced", Font.PLAIN, 13));
-        areaResultados.setBackground(new Color(20, 20, 35));
+        areaResultados.setBackground(new Color(18, 18, 32));
         areaResultados.setForeground(new Color(180, 255, 180));
-        areaResultados.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        areaResultados.setBorder(BorderFactory.createEmptyBorder(10, 12, 10, 12));
+        areaResultados.setLineWrap(true);
 
         JScrollPane scroll = new JScrollPane(areaResultados);
-        scroll.setBorder(BorderFactory.createLineBorder(new Color(52, 170, 140)));
-        scroll.setPreferredSize(new Dimension(440, 150));
-
-        JPanel panelInferior = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 5));
-        panelInferior.setBackground(new Color(30, 30, 47));
-        panelInferior.add(btnMenosPoblado);
+        scroll.setBorder(BorderFactory.createLineBorder(new Color(52, 170, 140), 1));
+        scroll.setPreferredSize(new Dimension(456, 150));
 
         btnListar.addActionListener(e -> listarEstados());
         btnMasPoblado.addActionListener(e -> mostrarMasPoblado());
         btnMenosPoblado.addActionListener(e -> mostrarMenosPoblado());
 
-        panel.add(lblTitulo, BorderLayout.NORTH);
-        panel.add(panelControles, BorderLayout.CENTER);
+        JPanel panelSuperior = new JPanel(new BorderLayout(0, 6));
+        panelSuperior.setBackground(new Color(28, 28, 45));
+        
+        JPanel panelCombo = new JPanel(new BorderLayout(0, 4));
+        panelCombo.setBackground(new Color(28, 28, 45));
+        panelCombo.add(lblCombo, BorderLayout.NORTH);
+        panelCombo.add(comboPaises, BorderLayout.CENTER);
+        
+        panelSuperior.add(lblTitulo, BorderLayout.NORTH);
+        panelSuperior.add(panelCombo, BorderLayout.CENTER);
 
-        JPanel panelSur = new JPanel(new BorderLayout());
-        panelSur.setBackground(new Color(30, 30, 47));
-        panelSur.add(panelInferior, BorderLayout.NORTH);
-        panelSur.add(scroll, BorderLayout.CENTER);
-        panel.add(panelSur, BorderLayout.SOUTH);
+        panel.add(panelSuperior, BorderLayout.NORTH);
+        panel.add(panelBotones,  BorderLayout.CENTER);
+        panel.add(scroll,        BorderLayout.SOUTH);
 
         add(panel);
     }
